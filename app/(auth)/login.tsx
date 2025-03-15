@@ -10,6 +10,7 @@ import { At, Lock } from "phosphor-react-native";
 import { useRef, useState } from "react";
 import Button from "@/components/Button";
 import { useRouter } from "expo-router";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const emailRef = useRef("");
@@ -18,11 +19,26 @@ const Login = () => {
 
   const router = useRouter();
 
+  const { login: userLogin } = useAuth();
+
   const handleSubmit = async () => {
     if (!emailRef.current || !passwordRef.current) {
       Alert.alert("Error", "Please fill all the fields");
       return;
     }
+
+    setIsLoading(true);
+
+    const res = await userLogin(emailRef.current, passwordRef.current);
+
+    setIsLoading(false);
+
+    if (!res.success) {
+      Alert.alert("Error", res.msg);
+      return;
+    }
+
+    router.push("/(tabs)");
   };
 
   return (
@@ -53,6 +69,7 @@ const Login = () => {
                 weight="fill"
               />
             }
+            keyboardType="email-address"
             onChangeText={(value) => (emailRef.current = value)}
           />
           <Input

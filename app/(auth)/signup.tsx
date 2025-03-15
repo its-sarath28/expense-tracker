@@ -36,7 +36,7 @@ const SignUp = () => {
       nameRef.current
     );
 
-    console.log(res);
+    // console.log(res);
 
     setIsLoading(false);
 

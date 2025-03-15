@@ -28,7 +28,17 @@
       "output": "static",
       "favicon": ""
     },
-    "plugins": ["expo-router", "expo-splash-screen"],
+    "plugins": [
+      "expo-router",
+      "expo-splash-screen",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photo library to select images."
+        }
+      ]
+    ],
+
     "experiments": {
       "typedRoutes": true
     },

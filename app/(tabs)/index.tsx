@@ -1,26 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import Button from "@/components/Button";
-import Typo from "@/components/Typo";
-import { colors } from "@/constants/theme";
-import { signOut } from "firebase/auth";
-import { auth } from "@/config/firebase";
+import { StyleSheet, Text } from "react-native";
+import ScreenWrapper from "@/components/ScreenWrapper";
 
 const Home = () => {
-  const handleLogout = async () => {
-    await signOut(auth);
-  };
-
   return (
-    <View>
+    <ScreenWrapper>
       <Text>Home</Text>
-
-      <Button onPress={handleLogout}>
-        <Typo size={16} color={colors.neutral900}>
-          Logout
-        </Typo>
-      </Button>
-    </View>
+    </ScreenWrapper>
   );
 };
 
