@@ -1,5 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { BackButtonProps } from "@/types";
 import { useRouter } from "expo-router";
 import { CaretLeft } from "phosphor-react-native";

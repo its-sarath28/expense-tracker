@@ -14,4 +14,9 @@ export const commonStyles = StyleSheet.create({
     width: scale(135),
     borderRadius: 200,
   },
+  flexBetween: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 });

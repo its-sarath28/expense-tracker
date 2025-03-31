@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { FC } from "react";
+import { StyleSheet, View } from "react-native";
+import { FC } from "react";
 import { HeaderProps } from "@/types";
 import Typo from "./Typo";
 

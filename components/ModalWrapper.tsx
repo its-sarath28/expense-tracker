@@ -1,5 +1,5 @@
-import { Platform, StyleSheet, Text, View } from "react-native";
-import React, { FC } from "react";
+import { Platform, StyleSheet, View } from "react-native";
+import { FC } from "react";
 import { colors, spacingY } from "@/constants/theme";
 import { ModalWrapperProps } from "@/types";
 import { verticalScale } from "@/utils/styling";

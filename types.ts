@@ -70,7 +70,7 @@ export type BackButtonProps = {
 
 export type TransactionType = {
   id?: string;
-  type: string;
+  type: "expense" | "income";
   amount: number;
   category?: string;
   date: Date | Timestamp | string;

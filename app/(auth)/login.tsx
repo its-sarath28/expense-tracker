@@ -1,5 +1,4 @@
 import { Alert, Pressable, StyleSheet, View } from "react-native";
-
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { colors, spacingX, spacingY } from "@/constants/theme";
 import { verticalScale } from "@/utils/styling";

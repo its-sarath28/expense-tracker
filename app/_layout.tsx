@@ -22,6 +22,24 @@ const Layout = () => {
           gestureDirection: "vertical",
         }}
       />
+      <Stack.Screen
+        name="(modals)/transactionModal"
+        options={{
+          presentation: "modal",
+          animation: "slide_from_bottom",
+          gestureEnabled: true,
+          gestureDirection: "vertical",
+        }}
+      />
+      <Stack.Screen
+        name="(modals)/searchModal"
+        options={{
+          presentation: "modal",
+          animation: "slide_from_bottom",
+          gestureEnabled: true,
+          gestureDirection: "vertical",
+        }}
+      />
     </Stack>
   );
 };

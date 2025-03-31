@@ -1,5 +1,4 @@
 import { View, TouchableOpacity, StyleSheet, Platform } from "react-native";
-import { Text } from "@react-navigation/elements";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { colors, spacingY } from "@/constants/theme";
 import { verticalScale } from "@/utils/styling";

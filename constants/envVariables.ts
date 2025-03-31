@@ -5,3 +5,7 @@ export const STORAGEBUCKET = process.env.EXPO_PUBLIC_STORAGE_BUCKET || "";
 export const MESSAGINGSENDERID =
   process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID || "";
 export const APPID = process.env.EXPO_PUBLIC_APP_ID || "";
+export const CLOUDINARY_CLOUD_NAME =
+  process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME || "";
+export const CLOUDINARY_UPLOAD_PRESET =
+  process.env.EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "";

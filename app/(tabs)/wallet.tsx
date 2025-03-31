@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
 import ScreenWrapper from "@/components/ScreenWrapper";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
@@ -6,13 +6,27 @@ import { scale, verticalScale } from "@/utils/styling";
 import Typo from "@/components/Typo";
 import { PlusCircle } from "phosphor-react-native";
 import { useRouter } from "expo-router";
+import useFetchData from "@/hooks/useFetchData";
+import { WalletType } from "@/types";
+import { useAuth } from "@/context/AuthContext";
+import { orderBy, where } from "firebase/firestore";
+import Loading from "@/components/Loading";
+import WalletListItem from "@/components/WalletListItem";
 
 const Wallet = () => {
   const router = useRouter();
+  const { user } = useAuth();
 
-  const getTotalBalance = () => {
-    return 5853;
-  };
+  const { data: wallets, loading } = useFetchData<WalletType>("wallets", [
+    where("uid", "==", user?.uid),
+    orderBy("created", "desc"),
+  ]);
+
+  const getTotalBalance = () =>
+    wallets.reduce((total, item) => {
+      total = total + (item.amount || 0);
+      return total;
+    }, 0);
 
   return (
     <ScreenWrapper style={{ backgroundColor: colors.black }}>
@@ -48,6 +62,17 @@ const Wallet = () => {
           </View>
 
           {/* TODO: Wallet List */}
+          {loading ? (
+            <Loading />
+          ) : (
+            <FlatList
+              data={wallets}
+              renderItem={({ item, index }) => (
+                <WalletListItem item={item} index={index} router={router} />
+              )}
+              contentContainerStyle={styles.listStyle}
+            />
+          )}
         </View>
       </View>
     </ScreenWrapper>
@@ -81,5 +106,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: spacingY._10,
+  },
+  listStyle: {
+    paddingVertical: spacingY._25,
+    paddingTop: spacingY._15,
   },
 });

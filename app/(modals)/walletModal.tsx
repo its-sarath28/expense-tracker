@@ -1,18 +1,19 @@
 import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import { colors, spacingX, spacingY } from "@/constants/theme";
-import { scale } from "@/utils/styling";
+import { scale, verticalScale } from "@/utils/styling";
 import ModalWrapper from "@/components/ModalWrapper";
 import Header from "@/components/Header";
 import BackButton from "@/components/BackButton";
 import Typo from "@/components/Typo";
 import Input from "@/components/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WalletType } from "@/types";
 import Button from "@/components/Button";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import ImageUpload from "@/components/ImageUpload";
-import { createOrUpdateWallet } from "@/service/walletService";
+import { createOrUpdateWallet, deleteWallet } from "@/service/walletService";
+import { Trash } from "phosphor-react-native";
 
 const WalletModal = () => {
   const [wallet, setWallet] = useState<WalletType>({
@@ -20,10 +21,18 @@ const WalletModal = () => {
     image: null,
   });
   const [loading, setLoading] = useState<boolean>(false);
+  const [deleting, setDeleting] = useState<boolean>(false);
 
   const router = useRouter();
 
   const { user } = useAuth();
+  const { id, name, image } = useLocalSearchParams();
+
+  useEffect(() => {
+    if (id && name) {
+      setWallet({ name: name as string, image });
+    }
+  }, []);
 
   const onSubmit = async () => {
     let { name, image } = wallet;
@@ -41,6 +50,10 @@ const WalletModal = () => {
       uid: user?.uid,
     };
 
+    if (id) {
+      data.id = id as string;
+    }
+
     const res = await createOrUpdateWallet(data);
 
     setLoading(false);
@@ -52,11 +65,37 @@ const WalletModal = () => {
     }
   };
 
+  const onDelete = async () => {
+    if (!id) return;
+    setDeleting(true);
+
+    const res = await deleteWallet(id as string);
+
+    setDeleting(false);
+
+    if (res.success) {
+      router.back();
+    } else {
+      Alert.alert(`Error`, res.msg);
+    }
+  };
+
+  const showDeleteAlert = () => {
+    Alert.alert(
+      "Confirm",
+      "Are you sure you want to delete this wallet ? \nThis will remove all transactions related to this wallet",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Remove", style: "destructive", onPress: onDelete },
+      ]
+    );
+  };
+
   return (
     <ModalWrapper>
       <View style={styles.container}>
         <Header
-          title="New Wallet"
+          title={id ? "Update Wallet" : "New Wallet"}
           leftIcon={<BackButton />}
           style={{ marginBottom: spacingY._10 }}
         />
@@ -89,9 +128,26 @@ const WalletModal = () => {
       </View>
 
       <View style={styles.footer}>
+        {id && (
+          <Button
+            onPress={showDeleteAlert}
+            loading={deleting}
+            style={{
+              backgroundColor: colors.rose,
+              paddingHorizontal: spacingX._15,
+            }}
+          >
+            <Trash
+              color={colors.white}
+              size={verticalScale(24)}
+              weight="bold"
+            />
+          </Button>
+        )}
+
         <Button onPress={onSubmit} loading={loading} style={{ flex: 1 }}>
           <Typo color={colors.black} size={16} fontWeight={"700"}>
-            Update
+            {id ? "Update Wallet" : "Add Wallet"}
           </Typo>
         </Button>
       </View>
